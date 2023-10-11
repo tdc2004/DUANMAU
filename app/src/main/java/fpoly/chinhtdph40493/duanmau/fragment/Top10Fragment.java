@@ -36,7 +36,6 @@ public class Top10Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FloatingActionButton btn_add = view.findViewById(R.id.btn_add);
         dao = new ThongKeDao(getContext());
         list = dao.top10();
         RecyclerView recyclerView = view.findViewById(R.id.recycler);

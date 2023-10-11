@@ -1,13 +1,67 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp"
     tools:context="fpoly.chinhtdph40493.duanmau.fragment.DoanhThuFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginBottom="20dp">
+      <Button
+          android:id="@+id/btn_starDay"
+          android:layout_width="150dp"
+          android:layout_height="wrap_content"
+          android:background="#D8D4D4"
+          android:text="Từ ngày"
+          android:textColor="@color/black"
+          android:textStyle="bold"
+          app:backgroundTint="@null" />
+      <EditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/edt_TuNgay"/>
+   </LinearLayout>
 
-</FrameLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+      <Button
+          android:id="@+id/btn_endDay"
+          android:layout_width="150dp"
+          android:layout_height="wrap_content"
+          android:background="#D8D4D4"
+          android:text="Đến ngày"
+          android:textColor="@color/black"
+          android:textStyle="bold"
+          app:backgroundTint="@null" />
+
+      <EditText
+          android:id="@+id/edt_denNgay"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+   </LinearLayout>
+   <Button
+       android:layout_marginTop="20dp"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/btn_doanhThu"
+       android:background="#D8D4D4"
+       android:text="Doanh Thu"
+       android:textColor="@color/black"
+       android:textStyle="bold"
+       app:backgroundTint="@null"
+       />
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Doanh Thu"
+       android:id="@+id/tv_doanhThu"
+       android:layout_marginTop="20dp"
+       android:textSize="30sp"/>
+
+</LinearLayout>

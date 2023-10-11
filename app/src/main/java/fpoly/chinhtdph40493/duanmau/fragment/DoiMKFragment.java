@@ -57,7 +57,6 @@ public class DoiMKFragment extends Fragment {
                 SharedPreferences spf = getContext().getSharedPreferences("File_User", Context.MODE_PRIVATE);
                 String user = spf.getString("USERNAME","");
                 String passold = spf.getString("PASSWORD","");
-
                 if (edt_new.getText().toString().equals("") || edt_old.getText().toString().equals("") || edt_reNew.getText().toString().equals("")){
                     Toast.makeText(getContext(), "Không đc bỏ trống", Toast.LENGTH_SHORT).show();
                     return;
@@ -79,9 +78,6 @@ public class DoiMKFragment extends Fragment {
                     editor.apply();
                 }else{
                     Toast.makeText(getContext(), "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show();
-
-                    Log.d("TAG", "Old Password: " + passold);
-                    Log.d("TAG", "New Password: " + pass);
                 }
             }
         });

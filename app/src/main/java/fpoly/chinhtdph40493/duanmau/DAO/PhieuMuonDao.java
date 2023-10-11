@@ -25,7 +25,7 @@ public class PhieuMuonDao {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, selectionArgs);
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()){
-                list.add(new PhieuMuon(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5),cursor.getString(6) ));
+                list.add(new PhieuMuon(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4),cursor.getString(5), cursor.getInt(6) ));
             }
         }
         return list;

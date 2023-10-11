@@ -95,20 +95,18 @@ public class ThanhVienAdapter extends RecyclerView.Adapter<ThanhVienAdapter.TVHo
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (validate()) {
-                            String hoTen = edt_ten.getText().toString();
-                            String namSinh = edt_namSinh.getText().toString();
-                            ThanhVien thanhVien1 = new ThanhVien(thanhVien.getMaTV(), hoTen, namSinh);
-                            boolean check = dao.updateTV(thanhVien1);
-                            if (check) {
-                                list.set(position, thanhVien1);
-                                Toast.makeText(context, "Sửa thành công", Toast.LENGTH_SHORT).show();
-                                notifyDataSetChanged();
-                                alertDialog.dismiss();
-                            } else {
-                                Toast.makeText(context, "Sửa thất bại", Toast.LENGTH_SHORT).show();
-                                alertDialog.dismiss();
-                            }
+                        String hoTen = edt_ten.getText().toString();
+                        String namSinh = edt_namSinh.getText().toString();
+                        ThanhVien thanhVien1 = new ThanhVien(thanhVien.getMaTV(), hoTen, namSinh);
+                        boolean check = dao.updateTV(thanhVien1);
+                        if (check) {
+                            list.set(position, thanhVien1);
+                            Toast.makeText(context, "Sửa thành công", Toast.LENGTH_SHORT).show();
+                            notifyDataSetChanged();
+                            alertDialog.dismiss();
+                        } else {
+                            Toast.makeText(context, "Sửa thất bại", Toast.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
                         }
                     }
                 });
@@ -124,9 +122,6 @@ public class ThanhVienAdapter extends RecyclerView.Adapter<ThanhVienAdapter.TVHo
         });
     }
 
-    private boolean validate() {
-        return true;
-    }
 
     @Override
     public int getItemCount() {

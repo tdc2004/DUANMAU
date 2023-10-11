@@ -128,6 +128,17 @@ public class SachFragment extends Fragment {
     }
 
     private boolean validate() {
+        if (edt_ten.getText().toString().isEmpty() || edt_giaThue.getText().toString().isEmpty()){
+            Toast.makeText(getContext(), "Không được bỏ trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        int gia;
+        try {
+            gia = Integer.parseInt(edt_giaThue.getText().toString());
+        }catch (Exception e){
+            Toast.makeText(getContext(), "Giá phải là số", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 }

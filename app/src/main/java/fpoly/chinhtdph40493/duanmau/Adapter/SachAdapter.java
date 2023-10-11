@@ -133,7 +133,7 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
                             boolean check = sachDao.updateSach(sach1);
                             if (check){
                                 list.set(position,sach1);
-                                adapter.notifyDataSetChanged();
+                                notifyDataSetChanged();
                                 alertDialog.dismiss();
                                 Toast.makeText(context, "Sửa thành công", Toast.LENGTH_SHORT).show();
                             }else{

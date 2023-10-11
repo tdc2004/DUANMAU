@@ -23,9 +23,8 @@ public class ThongKeDao {
         database = dbHelper.getReadableDatabase();
     }
     public ArrayList<Sach> top10(){
-        String getTop = "SELECT maSach, tenSach, COUNT(tenSach) as soLuong FROM Sach GROUP BY maSach, tenSach ORDER BY soLuong DESC LIMIT 10 ";
+        String getTop = "SELECT maSach, tenSach, COUNT(tenSach) as soLuong FROM Sach GROUP BY tenSach ORDER BY soLuong DESC LIMIT 10 ";
         ArrayList<Sach> list = new ArrayList<>();
-        SachDao sachDao = new SachDao(new DBHelper(context),context);
         Cursor cursor = database.rawQuery(getTop,null);
         if (cursor.getCount() >0 && cursor!=null){
             cursor.moveToFirst();
@@ -45,7 +44,7 @@ public class ThongKeDao {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()){
                 try{
-                    list.add(Integer.parseInt(cursor.getString(0)));
+                    list.add(Integer.valueOf(cursor.getString(0)));
                 }catch (Exception e){
                     list.add(0);
                 }

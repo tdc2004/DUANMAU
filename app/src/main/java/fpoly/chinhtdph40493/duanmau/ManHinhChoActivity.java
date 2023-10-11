@@ -20,6 +20,6 @@ public class ManHinhChoActivity extends AppCompatActivity {
                 startActivity(new Intent(ManHinhChoActivity.this, LoginActivity.class));
                 finish();
             }
-        },1500);
+        },2000);
     }
 }

@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(@Nullable Context context) {
-        super(context, "ThuVien.db", null, 1);
+        super(context, "ThuVien.db", null, 2);
     }
 
     String tb_thanhVien = "CREATE TABLE ThanhVien(MATV INTEGER PRIMARY KEY AUTOINCREMENT, HOTEN TEXT NOT NULL,NAMSINH TEXT NOT NULL)";
@@ -18,13 +18,15 @@ public class DBHelper extends SQLiteOpenHelper {
     String createTableSach = "CREATE TABLE Sach (maSach INTEGER PRIMARY KEY AUTOINCREMENT,tenSach TEXT NOT NULL," +
             "giaSach INTEGER NOT NULL, maLoai INTEGER REFERENCES TheLoai(maLoai))";
     String createTablePhieuMuon = "CREATE TABLE PhieuMuon(" +
-            "maPM INTEGER PRIMARY KEY AUTOINCREMENT," +
+             "maPM INTEGER PRIMARY KEY AUTOINCREMENT," +
             "maTT TEXT REFERENCES ThuThu(maTT), " +
             "maTV INTEGER REFERENCES ThanhVien(maTV), " +
             "maSach INTEGER REFERENCES Sach(maSach), " +
             "tienThue INTEGER NOT NULL," +
             "ngay DATE NOT NULL," +
             "traSach INTEGER NOT NULL)";
+
+    String insertintoThuThu = "INSERT INTO ThuThu(maTT,hoTen,matKhau) VALUES('admin','admin',123)";
 
 
     @Override
@@ -34,6 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(createTableTheLoai);
         db.execSQL(createTableSach);
         db.execSQL(createTablePhieuMuon);
+        db.execSQL(insertintoThuThu);
     }
 
     @Override

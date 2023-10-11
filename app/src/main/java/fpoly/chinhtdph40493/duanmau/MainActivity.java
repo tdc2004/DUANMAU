@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         String user = intent.getStringExtra("user");
 
         tv_user.setText("Welcome "+user);
-        if (user.equalsIgnoreCase("admin")){
-            view.getMenu().findItem(R.id.nv_addUser).setVisible(true);
+        if (!user.equalsIgnoreCase("admin")){
+            view.getMenu().findItem(R.id.nv_addUser).setVisible(false);
         }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainActivity.this,drawerLayout,toolbar,R.string.open_name,R.string.close_name);

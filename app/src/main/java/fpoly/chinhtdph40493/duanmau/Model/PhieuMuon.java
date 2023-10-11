@@ -12,14 +12,14 @@ public class PhieuMuon {
     private String ngay;
 
 
-    public PhieuMuon(int maPM, String maTT, int maTV, int maSach, int tienThue, int traSach, String ngay) {
+    public PhieuMuon(int maPM, String maTT, int maTV, int maSach, int tienThue, String ngay, int traSach) {
         this.maPM = maPM;
         this.maTT = maTT;
         this.maTV = maTV;
         this.maSach = maSach;
         this.tienThue = tienThue;
-        this.traSach = traSach;
         this.ngay = ngay;
+        this.traSach = traSach;
     }
     public PhieuMuon(){
 

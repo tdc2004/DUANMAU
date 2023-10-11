@@ -98,6 +98,14 @@ public class ThanhVienFragment extends Fragment {
     }
 
     private boolean validate() {
+        if (edt_ten.getText().toString().isEmpty() || edt_namSinh.getText().toString().isEmpty()){
+            Toast.makeText(getContext(), "Không được bỏ trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (edt_namSinh.getText().toString().length()<4){
+            Toast.makeText(getContext(), "Năm sinh sai định dạng", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 }

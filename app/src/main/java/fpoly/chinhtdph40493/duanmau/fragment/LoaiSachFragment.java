@@ -31,7 +31,7 @@ public class LoaiSachFragment extends Fragment {
     LoaiSachDao dao;
     ArrayList<LoaiSach> list = new ArrayList<>();
     FloatingActionButton button;
-    Button button_add,btn_huy;
+    Button button_add, btn_huy;
 
 
     @Override
@@ -45,16 +45,16 @@ public class LoaiSachFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycler);
-        dao = new LoaiSachDao(new DBHelper(getContext()),getContext());
+        dao = new LoaiSachDao(new DBHelper(getContext()), getContext());
         list = dao.getAll();
-        LoaiSachAdapter adapter = new LoaiSachAdapter(list,getContext());
+        LoaiSachAdapter adapter = new LoaiSachAdapter(list, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         button = view.findViewById(R.id.btn_add);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view1 = LayoutInflater.from(getContext()).inflate(R.layout.item_loai_sach_add_update,null,false);
+                View view1 = LayoutInflater.from(getContext()).inflate(R.layout.item_loai_sach_add_update, null, false);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setView(view1);
                 TextView title = view1.findViewById(R.id.tv_title);
@@ -68,20 +68,22 @@ public class LoaiSachFragment extends Fragment {
                 button_add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (validate()){
-                            String tenLoai = edt_tenLoai.getText().toString();
-                            LoaiSach loaiSach = new LoaiSach(getId(),tenLoai);
-                            boolean check = dao.insertTL(loaiSach);
-                            if (check){
-                                list.add(loaiSach);
-                                adapter.notifyDataSetChanged();
-                                Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                                alertDialog.dismiss();
-                            }else {
-                                Toast.makeText(getContext(), "Thêm thất bại", Toast.LENGTH_SHORT).show();
-                            }
-
+                        if (edt_tenLoai.getText().toString().equals("")){
+                            Toast.makeText(getContext(), "Không được bỏ trống", Toast.LENGTH_SHORT).show();
+                            return;
                         }
+                        String tenLoai = edt_tenLoai.getText().toString();
+                        LoaiSach loaiSach = new LoaiSach(getId(), tenLoai);
+                        boolean check = dao.insertTL(loaiSach);
+                        if (check) {
+                            list.add(loaiSach);
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
+                        } else {
+                            Toast.makeText(getContext(), "Thêm thất bại", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
                 btn_huy.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +99,4 @@ public class LoaiSachFragment extends Fragment {
 
     }
 
-    private boolean validate() {
-        return true;
-    }
 }

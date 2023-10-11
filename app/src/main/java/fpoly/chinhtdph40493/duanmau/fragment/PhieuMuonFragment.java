@@ -131,14 +131,20 @@ public class PhieuMuonFragment extends Fragment {
         btn_them.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validate()) {
                     Sach sach = sachDao.getID(maSach);
                     Date date = new Date();
                     String ngay = sdf.format(date);
                     PhieuMuon phieuMuon = new PhieuMuon();
+                    int trangThai;
+                    chk_trangThai = view1.findViewById(R.id.chk_trangThai);
+                    if (chk_trangThai.isChecked()){
+                        trangThai = 0;
+                    }else {
+                        trangThai=1;
+                    }
                     SharedPreferences sharedPreferences = getContext().getSharedPreferences("File_User", Context.MODE_PRIVATE);
                     String maTT = sharedPreferences.getString("USERNAME","");
-                    PhieuMuon phieuMuon1 = new PhieuMuon(getId(), maTT, maThanhVien, maSach, sach.getGiaThue(), phieuMuon.getTraSach(), ngay);
+                    PhieuMuon phieuMuon1 = new PhieuMuon(getId(), maTT, maThanhVien, maSach, sach.getGiaThue(), ngay, trangThai);
                     boolean check = dao.insertPM(phieuMuon1);
                     if (check) {
                         list.add(phieuMuon1);
@@ -149,7 +155,6 @@ public class PhieuMuonFragment extends Fragment {
                         Toast.makeText(getContext(), "Thêm thất bại", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
-                }
             }
         });
         Button btn_huy = view1.findViewById(R.id.btn_huy);
@@ -159,9 +164,5 @@ public class PhieuMuonFragment extends Fragment {
                 alertDialog.dismiss();
             }
         });
-    }
-
-    private boolean validate() {
-        return true;
     }
 }
