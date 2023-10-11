@@ -61,12 +61,16 @@ public class LoaiSachAdapter extends RecyclerView.Adapter<LoaiSachAdapter.LoaiSa
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int id = list.get(holder.getAdapterPosition()).getMaLoai();
-                        boolean check = dao.deleteTL(id);
-                        if (check) {
-                            Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                            list.remove(position);
-                            notifyItemRemoved(position);
-                        } else {
+                        try {
+                            boolean check = dao.deleteTL(id);
+                            if (check) {
+                                Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                                list.remove(position);
+                                notifyItemRemoved(position);
+                            } else {
+                                Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
                             Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }

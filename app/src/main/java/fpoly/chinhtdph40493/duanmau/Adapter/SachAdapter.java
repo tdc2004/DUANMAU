@@ -14,10 +14,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
+
 import fpoly.chinhtdph40493.duanmau.DAO.SachDao;
 import fpoly.chinhtdph40493.duanmau.DAO.LoaiSachDao;
 import fpoly.chinhtdph40493.duanmau.Database.DBHelper;
@@ -30,11 +33,12 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
     Context context;
     LoaiSachDao loaiSachDao;
     SachDao sachDao;
-    EditText edt_tenSach,edt_giaThue;
+    EditText edt_tenSach, edt_giaThue;
     Spinner sp_loaiSach;
     ArrayList<LoaiSach> list1 = new ArrayList<>();
 
     int maLoaiSach;
+
     public SachAdapter(ArrayList<Sach> list, Context context) {
         this.list = list;
         this.context = context;
@@ -43,19 +47,19 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
     @NonNull
     @Override
     public SachViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_sach,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_sach, parent, false);
         return new SachViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SachViewHolder holder, int position) {
         Sach sach = list.get(position);
-        loaiSachDao = new LoaiSachDao(new DBHelper(context),context);
-        holder.tv_ten.setText("Tên Sách: "+sach.getTenSach());
-        holder.tv_ma.setText("Mã Sách: "+sach.getMaSach());
-        holder.tv_giaThue.setText("Giá thuê: "+sach.getGiaThue());
+        loaiSachDao = new LoaiSachDao(new DBHelper(context), context);
+        holder.tv_ten.setText("Tên Sách: " + sach.getTenSach());
+        holder.tv_ma.setText("Mã Sách: " + sach.getMaSach());
+        holder.tv_giaThue.setText("Giá thuê: " + sach.getGiaThue());
         LoaiSach loaiSach = loaiSachDao.getID(sach.getMaLoai());
-        holder.tv_loaiSach.setText("Tên Loại Sách: "+loaiSach.getTenLoai());
+        holder.tv_loaiSach.setText("Tên Loại Sách: " + loaiSach.getTenLoai());
         holder.btn_xoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,21 +68,25 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
                 builder.setTitle("Cảnh báo");
                 builder.setMessage("Bạn có chắc chắn muốn xóa không ?");
                 builder.setIcon(R.drawable.baseline_warning_24);
-                sachDao = new SachDao(new DBHelper(context),context);
+                sachDao = new SachDao(new DBHelper(context), context);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int id = list.get(holder.getAdapterPosition()).getMaSach();
-                        boolean check = sachDao.deleteSach(id);
-                        if (check){
-                            list.remove(position);
-                            notifyItemRemoved(holder.getAdapterPosition());
-                            Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                        }else {
+                        try {
+                            boolean check = sachDao.deleteSach(id);
+                            if (check) {
+                                list.remove(position);
+                                notifyItemRemoved(holder.getAdapterPosition());
+                                Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
                             Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }).setNegativeButton("Cancel",null).show();
+                }).setNegativeButton("Cancel", null).show();
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -96,7 +104,7 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
                 edt_giaThue = view1.findViewById(R.id.edt_giaThue);
                 sp_loaiSach = view1.findViewById(R.id.sp_loaiSach);
                 edt_tenSach.setText(sach.getTenSach());
-                edt_giaThue.setText(sach.getGiaThue()+"");
+                edt_giaThue.setText(sach.getGiaThue() + "");
                 list1 = loaiSachDao.getAll();
                 LoaiSachSpinner adapter = new LoaiSachSpinner(list1, context);
                 sp_loaiSach.setAdapter(adapter);
@@ -119,24 +127,24 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
                         break; // Bạn có thể dừng vòng lặp ngay sau khi tìm thấy giá trị tương ứng
                     }
                 }
-                Button btn_sua ,btn_huy;
+                Button btn_sua, btn_huy;
                 btn_sua = view1.findViewById(R.id.btn_sach);
                 btn_sua.setText("UPDATE");
                 btn_sua.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (validate()){
+                        if (validate()) {
                             String ten = edt_tenSach.getText().toString();
                             int gia = Integer.parseInt(edt_giaThue.getText().toString());
                             Sach sach1 = new Sach(sach.getMaSach(), ten, gia, maLoaiSach);
-                            sachDao = new SachDao(new DBHelper(context),context);
+                            sachDao = new SachDao(new DBHelper(context), context);
                             boolean check = sachDao.updateSach(sach1);
-                            if (check){
-                                list.set(position,sach1);
+                            if (check) {
+                                list.set(position, sach1);
                                 notifyDataSetChanged();
                                 alertDialog.dismiss();
                                 Toast.makeText(context, "Sửa thành công", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 Toast.makeText(context, "Sửa thất bại", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -157,8 +165,9 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
     }
 
     public class SachViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_ma,tv_ten,tv_giaThue,tv_loaiSach;
+        TextView tv_ma, tv_ten, tv_giaThue, tv_loaiSach;
         ImageView btn_xoa;
+
         public SachViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_ma = itemView.findViewById(R.id.tv_maSach);

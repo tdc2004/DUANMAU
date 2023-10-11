@@ -62,12 +62,16 @@ public class ThanhVienAdapter extends RecyclerView.Adapter<ThanhVienAdapter.TVHo
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int id = list.get(holder.getAdapterPosition()).getMaTV();
-                        boolean check = dao.deleteTV(id);
-                        if (check) {
-                            list.remove(position);
-                            notifyItemRemoved(holder.getAdapterPosition());
-                            Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                        } else {
+                        try {
+                            boolean check = dao.deleteTV(id);
+                            if (check) {
+                                list.remove(position);
+                                notifyItemRemoved(holder.getAdapterPosition());
+                                Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
                             Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
