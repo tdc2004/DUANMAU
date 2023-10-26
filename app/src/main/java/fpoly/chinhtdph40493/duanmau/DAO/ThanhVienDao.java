@@ -27,7 +27,7 @@ public class ThanhVienDao {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, selectionArgs);
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()){
-                list.add(new ThanhVien(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
+                list.add(new ThanhVien(cursor.getInt(0), cursor.getString(1), cursor.getString(2),cursor.getInt(3)));
             }
         }
         return list;
@@ -46,6 +46,7 @@ public class ThanhVienDao {
         ContentValues values = new ContentValues();
         values.put("HOTEN",thanhVien.getHoTen());
         values.put("NAMSINH",thanhVien.getNamSinh());
+        values.put(("soTaiKhoan"),thanhVien.getStk());
         long kq = database.insert("ThanhVien",null,values);
         thanhVien.setMaTV((int) kq);
         return kq != -1;
@@ -60,6 +61,7 @@ public class ThanhVienDao {
         ContentValues values = new ContentValues();
         values.put("HOTEN",thanhVien.getHoTen());
         values.put("NAMSINH",thanhVien.getNamSinh());
+        values.put(("soTaiKhoan"),thanhVien.getStk());
         long kq = database.update("ThanhVien",values,"MATV = ?",new String[]{String.valueOf(thanhVien.getMaTV())});
         return kq != -1;
     }

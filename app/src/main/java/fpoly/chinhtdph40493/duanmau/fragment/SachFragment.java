@@ -11,11 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,11 +39,13 @@ import fpoly.chinhtdph40493.myapplication.R;
 public class SachFragment extends Fragment {
     SachDao dao;
     ArrayList<Sach> list = new ArrayList<>();
+    ArrayList<Sach> listDem = new ArrayList<>();
 
-    TextInputEditText edt_ten, edt_giaThue;
+    TextInputEditText edt_ten, edt_giaThue,edt_soLuong;
     Spinner sp_loaiSach;
     Button btn_ad, btn_huy;
     int maLoaiSach;
+    EditText edt_search;
     ArrayList<LoaiSach> list1 = new ArrayList<>();
 
     @Override
@@ -56,10 +61,39 @@ public class SachFragment extends Fragment {
         FloatingActionButton btn_add = view.findViewById(R.id.btn_addSach);
         dao = new SachDao(new DBHelper(getContext()), getContext());
         list = dao.getAll();
+        listDem = dao.getAll();
+        edt_search = view.findViewById(R.id.edt_timKiem);
+
         SachAdapter adapter = new SachAdapter(list, getContext());
         RecyclerView recyclerView = view.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        edt_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                list.clear();
+                if (!s.toString().isEmpty()){
+                    for (Sach sach: listDem){
+                        if (sach.getSoLuong() <= Integer.parseInt(s.toString())){
+                            list.add(sach);
+                        }
+                    }
+                }else {
+                    list.addAll(listDem);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +107,8 @@ public class SachFragment extends Fragment {
                 edt_ten = view1.findViewById(R.id.edt_tenSach);
                 edt_giaThue = view1.findViewById(R.id.edt_giaThue);
                 sp_loaiSach = view1.findViewById(R.id.sp_loaiSach);
+                edt_soLuong = view1.findViewById(R.id.edt_soLuong);
+
                 btn_ad = view1.findViewById(R.id.btn_sach);
                 btn_ad.setText("ADD");
                 btn_huy = view1.findViewById(R.id.btn_huy);
@@ -103,7 +139,8 @@ public class SachFragment extends Fragment {
                        if (validate()){
                            String ten = edt_ten.getText().toString();
                            int gia = Integer.parseInt(edt_giaThue.getText().toString());
-                           Sach sach = new Sach(getId(), ten, gia, maLoaiSach);
+                          int soLuong = Integer.parseInt(edt_soLuong.getText().toString());
+                           Sach sach = new Sach(getId(), ten, gia, maLoaiSach,soLuong);
                            dao = new SachDao(new DBHelper(getContext()), getContext());
                            boolean check = dao.insertSach(sach);
                            if (check){

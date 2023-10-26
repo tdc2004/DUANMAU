@@ -17,19 +17,25 @@ public class ThongKeDao {
     private Context context;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    public ThongKeDao( Context context) {
+    public ThongKeDao(Context context) {
         this.context = context;
         DBHelper dbHelper = new DBHelper(context);
         database = dbHelper.getReadableDatabase();
     }
-    public ArrayList<Sach> top10(){
-        String getTop = "SELECT maSach, tenSach, COUNT(tenSach) as soLuong FROM Sach GROUP BY tenSach ORDER BY soLuong DESC LIMIT 10 ";
+
+    public ArrayList<Sach> top10() {
+        String getTop = "SELECT s.tenSach, COUNT(*) as soLuong\n" +
+                "FROM PhieuMuon pm\n" +
+                "INNER JOIN Sach s ON pm.maSach = s.maSach\n" +
+                "GROUP BY s.tenSach\n" +
+                "ORDER BY soLuong DESC\n" +
+                "LIMIT 10;";
         ArrayList<Sach> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery(getTop,null);
-        if (cursor.getCount() >0 && cursor!=null){
+        Cursor cursor = database.rawQuery(getTop, null);
+        if (cursor.getCount() > 0 && cursor != null) {
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()){
-                list.add(new Sach(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
+            while (!cursor.isAfterLast()) {
+                list.add(new Sach( cursor.getString(0), cursor.getInt(1)));
                 cursor.moveToNext();
             }
             cursor.close();
@@ -37,15 +43,16 @@ public class ThongKeDao {
         database.close();
         return list;
     }
-    public int doanhThu(String startDay,String endDay){
-        Cursor cursor = database.rawQuery("SELECT SUM(tienThue) as doanhThu FROM PhieuMuon WHERE ngay BETWEEN ? AND ?",new String[]{startDay,endDay});
+
+    public int doanhThu(String startDay, String endDay) {
+        Cursor cursor = database.rawQuery("SELECT SUM(tienThue) as doanhThu FROM PhieuMuon WHERE ngay BETWEEN ? AND ?", new String[]{startDay, endDay});
         ArrayList<Integer> list = new ArrayList<>();
-        if (cursor != null && cursor.getCount()>0){
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()){
-                try{
+            while (!cursor.isAfterLast()) {
+                try {
                     list.add(Integer.valueOf(cursor.getString(0)));
-                }catch (Exception e){
+                } catch (Exception e) {
                     list.add(0);
                 }
             }

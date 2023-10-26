@@ -9,15 +9,15 @@ public class Sach {
 
 
 
-    public Sach(int maSach, String tenSach, int giaThue, int maLoai) {
+    public Sach(int maSach, String tenSach, int giaThue, int maLoai,int soLuong) {
         this.maSach = maSach;
         this.tenSach = tenSach;
         this.giaThue = giaThue;
         this.maLoai = maLoai;
+        this.soLuong = soLuong;
     }
 
-    public Sach(int maSach,String tenSach, int soLuong) {
-        this.maSach = maSach;
+    public Sach(String tenSach, int soLuong) {
         this.tenSach = tenSach;
         this.soLuong = soLuong;
     }

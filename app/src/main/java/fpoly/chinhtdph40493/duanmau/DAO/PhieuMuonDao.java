@@ -25,7 +25,7 @@ public class PhieuMuonDao {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, selectionArgs);
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()){
-                list.add(new PhieuMuon(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4),cursor.getString(5), cursor.getInt(6) ));
+                list.add(new PhieuMuon(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4),cursor.getString(5), cursor.getInt(6),cursor.getString(7) ));
             }
         }
         return list;
@@ -49,6 +49,7 @@ public class PhieuMuonDao {
         values.put("tienThue", phieuMuon.getTienThue());
         values.put("ngay", phieuMuon.getNgay());
         values.put("traSach", phieuMuon.getTraSach());
+        values.put("gio",phieuMuon.getGio());
         long kq = database.insert("PhieuMuon", null, values);
         phieuMuon.setMaPM((int) kq);
         return kq != -1;
@@ -70,6 +71,7 @@ public class PhieuMuonDao {
         values.put("tienThue", phieuMuon.getTienThue());
         values.put("ngay", phieuMuon.getNgay());
         values.put("traSach", phieuMuon.getTraSach());
+        values.put("gio",phieuMuon.getGio());
         long kq = database.update("PhieuMuon", values, "maPM = ?", new String[]{String.valueOf(phieuMuon.getMaPM())});
         return kq != -1;
     }

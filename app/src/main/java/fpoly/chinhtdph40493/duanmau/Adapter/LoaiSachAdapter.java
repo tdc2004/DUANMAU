@@ -89,6 +89,7 @@ public class LoaiSachAdapter extends RecyclerView.Adapter<LoaiSachAdapter.LoaiSa
                 TextView tv_title = view.findViewById(R.id.tv_title);
                 tv_title.setText("UPDATE");
                 TextInputEditText edt_tenLS = view.findViewById(R.id.edt_tenLoaiSach);
+                edt_tenLS.setText(loaiSach.getTenLoai());
                 Button btn_update,btn_huy;
                 btn_update = view.findViewById(R.id.btn_loaiSach);
                 btn_update.setText("UPDATE");

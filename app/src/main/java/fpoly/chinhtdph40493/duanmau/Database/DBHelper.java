@@ -8,15 +8,15 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(@Nullable Context context) {
-        super(context, "ThuVien.db", null, 3);
+        super(context, "ThuVien.db", null, 7);
     }
 
-    String tb_thanhVien = "CREATE TABLE ThanhVien(MATV INTEGER PRIMARY KEY AUTOINCREMENT, HOTEN TEXT NOT NULL,NAMSINH TEXT NOT NULL)";
+    String tb_thanhVien = "CREATE TABLE ThanhVien(MATV INTEGER PRIMARY KEY AUTOINCREMENT, HOTEN TEXT NOT NULL,NAMSINH TEXT NOT NULL,soTaiKhoan INTEGER NOT NULL)";
     String createTableThuThu = "CREATE TABLE ThuThu (maTT TEXT PRIMARY KEY,hoTen TEXT NOT NULL,matKhau TEXT NOT NULL)";
 
     String createTableTheLoai = "CREATE TABLE TheLoai(maLoai INTEGER PRIMARY KEY AUTOINCREMENT,tenLoai TEXT NOT NULL)";
     String createTableSach = "CREATE TABLE Sach (maSach INTEGER PRIMARY KEY AUTOINCREMENT,tenSach TEXT NOT NULL," +
-            "giaSach INTEGER NOT NULL, maLoai INTEGER REFERENCES TheLoai(maLoai))";
+            "giaSach INTEGER NOT NULL, maLoai INTEGER REFERENCES TheLoai(maLoai),soLuong INTEGER NOT NULL)";
     String createTablePhieuMuon = "CREATE TABLE PhieuMuon(" +
              "maPM INTEGER PRIMARY KEY AUTOINCREMENT," +
             "maTT TEXT REFERENCES ThuThu(maTT), " +
@@ -24,7 +24,8 @@ public class DBHelper extends SQLiteOpenHelper {
             "maSach INTEGER REFERENCES Sach(maSach), " +
             "tienThue INTEGER NOT NULL," +
             "ngay DATE NOT NULL," +
-            "traSach INTEGER NOT NULL)";
+            "traSach INTEGER NOT NULL,"+
+            "gio STRING NOT NULL)";
 
     String insertintoThuThu = "INSERT INTO ThuThu(maTT,hoTen,matKhau) VALUES('admin','admin',123)";
 

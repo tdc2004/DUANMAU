@@ -33,7 +33,7 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
     Context context;
     LoaiSachDao loaiSachDao;
     SachDao sachDao;
-    EditText edt_tenSach, edt_giaThue;
+    EditText edt_tenSach, edt_giaThue,edt_sol;
     Spinner sp_loaiSach;
     ArrayList<LoaiSach> list1 = new ArrayList<>();
 
@@ -60,6 +60,27 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
         holder.tv_giaThue.setText("Giá thuê: " + sach.getGiaThue());
         LoaiSach loaiSach = loaiSachDao.getID(sach.getMaLoai());
         holder.tv_loaiSach.setText("Tên Loại Sách: " + loaiSach.getTenLoai());
+        holder.tv_soLuong.setText("So Luong: "+sach.getSoLuong());
+        holder.tv_soLuong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = LayoutInflater.from(context).inflate(R.layout.item_soluong,null,false);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setView(view);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                EditText editText = view.findViewById(R.id.edt_soLuong);
+                editText.setText(sach.getSoLuong()+"");
+                Button button = view.findViewById(R.id.btn_submit);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+            }
+        });
         holder.btn_xoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,8 +124,10 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
                 edt_tenSach = view1.findViewById(R.id.edt_tenSach);
                 edt_giaThue = view1.findViewById(R.id.edt_giaThue);
                 sp_loaiSach = view1.findViewById(R.id.sp_loaiSach);
+                edt_sol = view1.findViewById(R.id.edt_soLuong);
                 edt_tenSach.setText(sach.getTenSach());
                 edt_giaThue.setText(sach.getGiaThue() + "");
+                edt_sol.setText(sach.getSoLuong()+"");
                 list1 = loaiSachDao.getAll();
                 LoaiSachSpinner adapter = new LoaiSachSpinner(list1, context);
                 sp_loaiSach.setAdapter(adapter);
@@ -136,7 +159,8 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
                         if (validate()) {
                             String ten = edt_tenSach.getText().toString();
                             int gia = Integer.parseInt(edt_giaThue.getText().toString());
-                            Sach sach1 = new Sach(sach.getMaSach(), ten, gia, maLoaiSach);
+                            int sol = Integer.parseInt(edt_sol.getText().toString());
+                            Sach sach1 = new Sach(sach.getMaSach(), ten, gia, maLoaiSach,sol);
                             sachDao = new SachDao(new DBHelper(context), context);
                             boolean check = sachDao.updateSach(sach1);
                             if (check) {
@@ -148,6 +172,12 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
                                 Toast.makeText(context, "Sửa thất bại", Toast.LENGTH_SHORT).show();
                             }
                         }
+                    }
+                });
+                view1.findViewById(R.id.btn_huy).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
                     }
                 });
                 return true;
@@ -165,7 +195,7 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
     }
 
     public class SachViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_ma, tv_ten, tv_giaThue, tv_loaiSach;
+        TextView tv_ma, tv_ten, tv_giaThue, tv_loaiSach,tv_soLuong;
         ImageView btn_xoa;
 
         public SachViewHolder(@NonNull View itemView) {
@@ -175,6 +205,7 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.SachViewHolder
             tv_giaThue = itemView.findViewById(R.id.tv_giaThue);
             tv_loaiSach = itemView.findViewById(R.id.tv_loaiSach);
             btn_xoa = itemView.findViewById(R.id.btn_xoa);
+            tv_soLuong = itemView.findViewById(R.id.tv_soLuong);
         }
     }
 }

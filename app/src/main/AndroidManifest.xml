@@ -13,7 +13,7 @@
         android:theme="@style/Theme.DUANMAU"
         tools:targetApi="31">
         <activity
-            android:name="fpoly.chinhtdph40493.duanmau.ManHinhChoActivity"
+            android:name="fpoly.chinhtdph40493.duanmau.manHinhChao1"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,12 +22,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="fpoly.chinhtdph40493.duanmau.ManHinhChoActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
             android:name="fpoly.chinhtdph40493.duanmau.LoginActivity"
             android:exported="true" />
         <activity
             android:name="fpoly.chinhtdph40493.duanmau.MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

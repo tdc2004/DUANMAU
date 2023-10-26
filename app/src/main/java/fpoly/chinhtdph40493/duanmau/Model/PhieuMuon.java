@@ -10,9 +10,10 @@ public class PhieuMuon {
     private int tienThue;
     private int traSach;
     private String ngay;
+    private String gio;
 
 
-    public PhieuMuon(int maPM, String maTT, int maTV, int maSach, int tienThue, String ngay, int traSach) {
+    public PhieuMuon(int maPM, String maTT, int maTV, int maSach, int tienThue, String ngay, int traSach,String gio) {
         this.maPM = maPM;
         this.maTT = maTT;
         this.maTV = maTV;
@@ -20,7 +21,17 @@ public class PhieuMuon {
         this.tienThue = tienThue;
         this.ngay = ngay;
         this.traSach = traSach;
+        this.gio = gio;
     }
+
+    public String getGio() {
+        return gio;
+    }
+
+    public void setGio(String gio) {
+        this.gio = gio;
+    }
+
     public PhieuMuon(){
 
     }

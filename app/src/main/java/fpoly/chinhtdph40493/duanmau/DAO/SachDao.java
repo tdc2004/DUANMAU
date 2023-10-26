@@ -24,9 +24,27 @@ public class SachDao {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, selectionArgs);
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()){
-                list.add(new Sach(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3)));
+                list.add(new Sach(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3),cursor.getInt(4)));
             }
         }
+        return list;
+    }
+    public ArrayList<Sach> demSach() {
+        SQLiteDatabase database = dbHelper.getReadableDatabase();
+        String getTop = "SELECT tenSach, COUNT(*) as soLuong\n" +
+                "FROM Sach pm\n" +
+                "GROUP BY tenSach\n";
+        ArrayList<Sach> list = new ArrayList<>();
+        Cursor cursor = database.rawQuery(getTop, null);
+        if (cursor.getCount() > 0 && cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                list.add(new Sach( cursor.getString(0), cursor.getInt(1)));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        database.close();
         return list;
     }
     public Sach getID(int id){
@@ -44,6 +62,7 @@ public class SachDao {
         values.put("tenSach", sach.getTenSach());
         values.put("maLoai", sach.getMaLoai());
         values.put("giaSach", sach.getGiaThue());
+        values.put("soLuong", sach.getSoLuong());
         long kq = database.insert("Sach", null, values);
         sach.setMaSach((int) kq);
         return kq != -1;
@@ -62,6 +81,7 @@ public class SachDao {
         values.put("tenSach", sach.getTenSach());
         values.put("maLoai", sach.getMaLoai());
         values.put("giaSach", sach.getGiaThue());
+        values.put("soLuong", sach.getSoLuong());
         long kq = database.update("Sach", values, "maSach = ?", new String[]{String.valueOf(sach.getMaSach())});
         return kq != -1;
     }

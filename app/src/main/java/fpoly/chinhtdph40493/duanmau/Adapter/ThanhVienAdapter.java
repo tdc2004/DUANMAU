@@ -29,7 +29,7 @@ public class ThanhVienAdapter extends RecyclerView.Adapter<ThanhVienAdapter.TVHo
     ArrayList<ThanhVien> list;
     Context context;
     ThanhVienDao dao;
-    TextInputEditText edt_ten, edt_namSinh;
+    TextInputEditText edt_ten, edt_namSinh,edt_stk;
 
     public ThanhVienAdapter(ArrayList<ThanhVien> list, Context context) {
         this.list = list;
@@ -49,6 +49,11 @@ public class ThanhVienAdapter extends RecyclerView.Adapter<ThanhVienAdapter.TVHo
         holder.tv_namSinh.setText("Năm Sinh: " + thanhVien.getNamSinh());
         holder.tv_maTV.setText("Mã Thành Viên: " + thanhVien.getMaTV());
         holder.tv_name.setText("Họ Tên: " + thanhVien.getHoTen());
+        holder.tv_STK.setText("STK: "+thanhVien.getStk());
+        if (thanhVien.getStk() % 5 == 0){
+            holder.tv_STK.setTextColor(Color.RED);
+            holder.tv_STK.setTextSize(25);
+        }
         holder.btn_xoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,8 +95,10 @@ public class ThanhVienAdapter extends RecyclerView.Adapter<ThanhVienAdapter.TVHo
                 dao = new ThanhVienDao(new DBHelper(context), context);
                 edt_ten = view1.findViewById(R.id.edt_hoTen);
                 edt_namSinh = view1.findViewById(R.id.edt_namSinh);
+                edt_stk = view1.findViewById(R.id.edt_stk);
                 edt_ten.setText(thanhVien.getHoTen());
                 edt_namSinh.setText(thanhVien.getNamSinh());
+                edt_stk.setText(thanhVien.getStk()+"");
                 TextView textView = view1.findViewById(R.id.tv_title);
                 textView.setText("Sửa Thành Viên");
                 Button button = view1.findViewById(R.id.btn_tv);
@@ -101,7 +108,8 @@ public class ThanhVienAdapter extends RecyclerView.Adapter<ThanhVienAdapter.TVHo
                     public void onClick(View v) {
                         String hoTen = edt_ten.getText().toString();
                         String namSinh = edt_namSinh.getText().toString();
-                        ThanhVien thanhVien1 = new ThanhVien(thanhVien.getMaTV(), hoTen, namSinh);
+                        int stk = Integer.parseInt(edt_stk.getText().toString());
+                        ThanhVien thanhVien1 = new ThanhVien(thanhVien.getMaTV(), hoTen, namSinh,stk);
                         boolean check = dao.updateTV(thanhVien1);
                         if (check) {
                             list.set(position, thanhVien1);
@@ -133,7 +141,7 @@ public class ThanhVienAdapter extends RecyclerView.Adapter<ThanhVienAdapter.TVHo
     }
 
     public class TVHolder extends RecyclerView.ViewHolder {
-        TextView tv_name, tv_namSinh, tv_maTV;
+        TextView tv_name, tv_namSinh, tv_maTV,tv_STK;
         ImageView btn_xoa;
 
         public TVHolder(@NonNull View itemView) {
@@ -142,6 +150,7 @@ public class ThanhVienAdapter extends RecyclerView.Adapter<ThanhVienAdapter.TVHo
             tv_maTV = itemView.findViewById(R.id.tv_maTV);
             tv_namSinh = itemView.findViewById(R.id.tv_namSinh);
             btn_xoa = itemView.findViewById(R.id.btn_xoa);
+            tv_STK = itemView.findViewById(R.id.tv_STK);
         }
     }
 }

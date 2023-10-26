@@ -32,7 +32,7 @@ import fpoly.chinhtdph40493.myapplication.R;
 public class ThanhVienFragment extends Fragment {
     ThanhVienDao dao;
     ArrayList<ThanhVien> list = new ArrayList<>();
-    TextInputEditText edt_ten, edt_namSinh;
+    TextInputEditText edt_ten, edt_namSinh,edt_stk;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class ThanhVienFragment extends Fragment {
                 alertDialog.show();
                 edt_ten = view1.findViewById(R.id.edt_hoTen);
                 edt_namSinh = view1.findViewById(R.id.edt_namSinh);
+                edt_stk = view1.findViewById(R.id.edt_stk);
                 TextView textView = view1.findViewById(R.id.tv_title);
                 textView.setText("Thêm Thành Viên");
                 Button button = view1.findViewById(R.id.btn_tv);
@@ -73,7 +74,8 @@ public class ThanhVienFragment extends Fragment {
                         if (validate()) {
                             String hoTen = edt_ten.getText().toString();
                             String namSinh = edt_namSinh.getText().toString();
-                            ThanhVien thanhVien = new ThanhVien(getId(), hoTen, namSinh);
+                            int stk = Integer.parseInt(edt_stk.getText().toString());
+                            ThanhVien thanhVien = new ThanhVien(getId(), hoTen, namSinh,stk);
                             boolean check = dao.insertTV(thanhVien);
                             if (check) {
                                 list.add(thanhVien);

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import fpoly.chinhtdph40493.duanmau.DAO.LoaiSachDao;
@@ -70,6 +71,8 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.Phie
         holder.tv_tenSach.setText("Tên sách: " + sach.getTenSach());
         holder.tv_giaThue.setText("Giá thuê: " + sach.getGiaThue());
         holder.tv_date.setText("Ngày thuê: " + phieuMuon.getNgay());
+        holder.tv_gioThue.setText("Giờ Thuê: "+phieuMuon.getGio());
+
         if (phieuMuon.getTraSach() == 0) {
             holder.tv_trangThai.setTextColor(Color.BLUE);
             holder.tv_trangThai.setText("Đã Trả Sách");
@@ -77,6 +80,7 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.Phie
             holder.tv_trangThai.setText("Chưa Trả Sách");
             holder.tv_trangThai.setTextColor(Color.RED);
         }
+
         holder.btn_xoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,7 +182,11 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.Phie
                         } else {
                             trangThai = 1;
                         }
-                        PhieuMuon phieuMuon1 = new PhieuMuon(phieuMuon.getMaPM(), phieuMuon.getMaTT(), maThanhVien, maSach, phieuMuon.getTienThue(), ngay, trangThai);
+                        Calendar calendar = Calendar.getInstance();
+                        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                        int minute = calendar.get(Calendar.MINUTE);
+                        String gio = hour+":"+minute;
+                        PhieuMuon phieuMuon1 = new PhieuMuon(phieuMuon.getMaPM(), phieuMuon.getMaTT(), maThanhVien, maSach, phieuMuon.getTienThue(), ngay, trangThai,gio);
                         boolean check = dao.updatePM(phieuMuon1);
                         if (check) {
                             list.set(position, phieuMuon1);
@@ -208,7 +216,7 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.Phie
     }
 
     public class PhieuMuonHolder extends RecyclerView.ViewHolder {
-        TextView tv_maPhieu, tv_tenTV, tv_tenSach, tv_giaThue, tv_trangThai, tv_date;
+        TextView tv_maPhieu, tv_tenTV, tv_tenSach, tv_giaThue, tv_trangThai, tv_date,tv_gioThue;
         ImageView btn_xoa;
 
         public PhieuMuonHolder(@NonNull View itemView) {
@@ -220,6 +228,7 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.Phie
             tv_trangThai = itemView.findViewById(R.id.tv_trangThai);
             tv_date = itemView.findViewById(R.id.tv_date);
             btn_xoa = itemView.findViewById(R.id.btn_xoa);
+            tv_gioThue = itemView.findViewById(R.id.tv_gioThue);
         }
     }
 }
